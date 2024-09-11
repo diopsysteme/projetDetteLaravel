@@ -42,6 +42,7 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
+        
 
         'mysql' => [
             'driver' => 'mysql',
@@ -92,6 +93,11 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI', 'mongodb+srv://dioprassoul0405:passer@tailleur.r2mvphe.mongodb.net/tailleur?retryWrites=true&w=majority&appName=tailleur'),
+            'database' => 'dette',
+    ],
 
     ],
 

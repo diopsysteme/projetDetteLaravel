@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\SendDebtReminderSms;
 use App\Jobs\UpdateUsersPhotoJob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +18,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->job(SendDebtReminderSms::class)->fridays()->at('14:00');
+        $schedule->job(new \App\Jobs\ArchiveDetteJob())->dailyAt('00:00');
+        
         $schedule->command('queue:retry all')->everyMinute()
         ->before(function () {
             Log::info('Tentative de relance des jobs échoués.');
@@ -42,7 +46,6 @@ class Kernel extends ConsoleKernel
         ->after(function () {
             Log::info('La tâche "your:command" a terminé son exécution.');
         });
-        // $schedule->command('inspire')->hourly();
     }
 
     /**
@@ -51,8 +54,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
-        
     }
 }

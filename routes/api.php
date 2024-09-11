@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DetteArchiveController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,8 @@ use App\Http\Controllers\PaymentController;
      return $request->user();
  });
  */
+Route::get('/dettea', [DetteArchiveController::class, 'show']);
+
 Route::get('/carte',function(){
    return view('carte');
 });

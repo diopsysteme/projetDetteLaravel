@@ -33,6 +33,7 @@ class PaymentService implements PaymentServiceInterface
         if($this->paymentRepository->createPayment($validatedData)){
             $debt = $this->paymentRepository->findDebtById($validatedData['dette_id']);
             $debt->load('payement');
+            return $debt;
         }
         return $this->paymentRepository->createPayment($validatedData);
 

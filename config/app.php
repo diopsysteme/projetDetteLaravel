@@ -173,6 +173,7 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
+        MongoDB\Laravel\MongoDBServiceProvider::class,
     ])->toArray(),
 
     /*

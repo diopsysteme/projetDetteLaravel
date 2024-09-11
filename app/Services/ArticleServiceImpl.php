@@ -61,8 +61,9 @@ class ArticleServiceImpl implements ArticleService
                 $errors[] = ['article' => $articleData, 'error' => !$article ? 'Article introuvable' : 'Quantité invalide'];
             } else {
                 $updated[] = [
-                    'id' => $article->id,
-                    'qtstock' => $article->qtstock + $articleData['quantite']
+                    "id"=>$article->id,
+                    "qtstock"=>$article->qtstock,
+                    "article"=>$article
                 ];
             }
         }

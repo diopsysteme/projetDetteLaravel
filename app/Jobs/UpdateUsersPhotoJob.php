@@ -45,7 +45,7 @@ class UpdateUsersPhotoJob implements ShouldQueue
             $users = User::whereNotNull('photo')->where('photo', 'not like', '%cloudinary.com%')->get();
 
         if ($users->isEmpty()) {
-            Log::info('No users found for re-upload.');
+            Log::info(message: 'No users found for re-upload.');
             return;
         }
 
