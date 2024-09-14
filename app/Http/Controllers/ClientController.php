@@ -157,7 +157,7 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         try {
-            $clientData = $request->only(['surnom', 'telephone', 'address']);
+            $clientData = $request->only(['surnom', 'telephone', 'address','max_montant','category_id']);
             $userData = $request->input('user', []);
             $client = $this->clientService->createClient(
                 $clientData,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\DetteArchiveController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -57,6 +58,14 @@ Route::prefix('v1')->group(function () {
             Route::delete('{id}', 'destroy');
             Route::get('{id}', 'show');
             Route::get('/', 'index');
+        });
+        Route::controller(DemandeController::class)->prefix('demande')->group(function () {
+            Route::post('/', 'store');
+            // Route::put('{id}', 'update');
+            // Route::patch('{id}', 'update');
+            // Route::delete('{id}', 'destroy');
+            // Route::get('{id}', 'show');
+            // Route::get('/', 'index');
         });
         
         // Dette routes

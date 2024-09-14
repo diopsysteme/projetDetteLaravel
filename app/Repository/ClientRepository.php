@@ -21,7 +21,6 @@ class ClientRepository implements ClientRepositoryInterface
     public function findClientById($id)
     {
         try {
-            //code...
             return Client::findOrFail($id);
         } catch (RepositoryException $th) {
             throw new RepositoryException('user not found: '. $th->getMessage(), '');

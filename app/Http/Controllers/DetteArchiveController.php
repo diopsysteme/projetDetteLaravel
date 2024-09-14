@@ -3,15 +3,43 @@ namespace App\Http\Controllers;
 use App\Models\Dette;
 use App\Models\Client;
 use App\Models\DetteArchive;
+use App\Repository\FirebaseRepository;
 use Illuminate\Http\Request;
+use App\Services\SmsService2;
 use App\Facades\ArchiveFacade;
+use App\Services\ArchiveService2;
+use App\Repository\MongoRepository;
 use Illuminate\Support\Facades\Log;
 use App\Facades\SmsServiceFacade as SmsService;
 
 class DetteArchiveController extends Controller
 {
+    protected $taf;
+    protected $fire;
+    public function __construct(ArchiveService2 $archiveService2) {
+        $this->taf = $archiveService2;
+    }
     public function show()
     {
+        // $this->taf->deleteDebtById(2);
+       $dettes=$this->taf->getArchivedDebts(["dette_id"=>24]);
+       return $dettes;
+
+    //     $test=new ArchiveService2();
+    //     return ArchiveFacade::restoreDetteById(41);
+    //    return ArchiveFacade::getArchevedById(41);
+    // return ArchiveFacade::getArchivedDettes();
+        // return ArchiveFacade::getArchivedDettes(['date' => '2024_09_11', 'client_id' => 210]);
+        // return ArchiveFacade::getArchivedDettes(['client_id' => 210]);
+        // return ArchiveFacade::getArchivedDettes(['date' => '2024_09_12']);
+
+
+
+
+
+        // $smsService = new SmsService2();
+        // $smsService->sendMessage('+16193323265', '+221785342948', 'hey est ce que diall de vrai!');
+
     //     $clients = Client::with('dettes')->get();
 
     //     // Parcourir chaque client
@@ -34,52 +62,52 @@ class DetteArchiveController extends Controller
 
 // SmsService::sendMessage('DIOP E-SHOP', '+221785342948', 'Bonjour, voici votre message.');
 
-        $dettes = Dette::all()
-            ->load(['client', 'payement', 'articles'])
-            ;
+    //     $dettes = Dette::all()
+    //         ->load(['client', 'payement', 'articles'])
+    //         ;
 
-        $clients = $dettes->filter(function ($dette) {
-            return $dette->etat_solde;
-        })->groupBy('client_id') 
-        ->map(function ($dettes) {
-            $client = $dettes->first()->client;
+    //     $clients = $dettes->filter(function ($dette) {
+    //         return $dette->etat_solde;
+    //     })->groupBy('client_id') 
+    //     ->map(function ($dettes) {
+    //         $client = $dettes->first()->client;
 
-            return [
-                'id' => $client->id,
-                'nom' =>$client->user? $client->user->prenom." ".$client->user->nom:$client->surnom,
-                'telephone' => $client->telephone,
-                'dettes' => $dettes->map(function ($dette) {
-                    return [
-                        'dette_id' => $dette->id,
-                        'montant_dette' => $dette->montant,
-                        'payments' => $dette->payement->map(function ($payment) {
-                            return [
-                                'payment_id' => $payment->id,
-                                'montant' => $payment->montant,
-                                'date' => $payment->created_at->toDateString(),
-                            ];
-                        })->toArray(),
-                        'articles' => $dette->articles->map(function ($article) {
-                            return [
-                                'article_id' => $article->id,
-                                'libelle' => $article->libelle,
-                                'prix_vente' => $article->pivot->prix_vente,
-                                'quantite' => $article->pivot->qte_vente,
-                            ];
-                        })->toArray(),
-                    ];
-                })->toArray(),
-            ];
-        })->values()->toArray();
-        ArchiveFacade::archiveSoldedDettes($clients);
-    DetteArchive::create([
-        'field1' => 'value1',
-        'field2' => 'value2',
-    ]);
-       return  [
+    //         return [
+    //             'id' => $client->id,
+    //             'nom' =>$client->user? $client->user->prenom." ".$client->user->nom:$client->surnom,
+    //             'telephone' => $client->telephone,
+    //             'dettes' => $dettes->map(function ($dette) {
+    //                 return [
+    //                     'dette_id' => $dette->id,
+    //                     'montant_dette' => $dette->montant,
+    //                     'payments' => $dette->payement->map(function ($payment) {
+    //                         return [
+    //                             'payment_id' => $payment->id,
+    //                             'montant' => $payment->montant,
+    //                             'date' => $payment->created_at->toDateString(),
+    //                         ];
+    //                     })->toArray(),
+    //                     'articles' => $dette->articles->map(function ($article) {
+    //                         return [
+    //                             'article_id' => $article->id,
+    //                             'libelle' => $article->libelle,
+    //                             'prix_vente' => $article->pivot->prix_vente,
+    //                             'quantite' => $article->pivot->qte_vente,
+    //                         ];
+    //                     })->toArray(),
+    //                 ];
+    //             })->toArray(),
+    //         ];
+    //     })->values()->toArray();
+    //     ArchiveFacade::archiveSoldedDettes($clients);
+    // DetteArchive::create([
+    //     'field1' => 'value1',
+    //     'field2' => 'value2',
+    // ]);
+    //    return  [
 
-           'dette' => DetteArchive::all(),
-       ];
+    //        'dette' => DetteArchive::all(),
+    //    ];
    }
 
 }

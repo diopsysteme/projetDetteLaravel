@@ -60,7 +60,7 @@ class DetteService implements DetteServiceInterface
                 'articlesInvalides' => $articlesInvalides
             ];
         }
-        if($request->montant_verse>=$montant_total)
+        if($request->montant_verse>$montant_total)
         {
             return [
                 'statut' => 'echec',

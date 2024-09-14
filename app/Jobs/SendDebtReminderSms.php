@@ -36,7 +36,7 @@ class SendDebtReminderSms implements ShouldQueue
             if ($totalDettes > 0) {
                 $nom=$client->user?$client->user->prenom.' '.$client->user->nom: $client->surnom;
                 $message = "Bonjour {$nom}, vous avez un total de {$totalDettes} FCFA de dettes chez DIOP E-SHOP.";
-            SmsService::sendMessage('DIOP E-SHOP', '+221'.$client->telephone, $message);
+                SmsService::sendMessage('DIOP E-SHOP', '+221'.$client->telephone, $message);
         }
     }
     }

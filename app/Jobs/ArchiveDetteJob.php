@@ -63,9 +63,10 @@ class ArchiveDetteJob implements ShouldQueue
                     ];
                 })->toArray(),
             ];
-        })->values()->toArray();
+        })->toArray();
         ArchiveFacade::archiveSoldedDettes($clients);
-
+        
+        // dd("ss");
         $dettes->filter(function ($dette) {
             return $dette->etat_solde;
         })->each(function ($dette) {

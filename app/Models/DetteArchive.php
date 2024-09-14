@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use MongoDB\Laravel\Eloquent\Model;
 
 class DetteArchive extends Model
@@ -11,5 +12,18 @@ class DetteArchive extends Model
 
    public function setCollect($collect){
     $this->collection = $collect;
+   }
+   public function listAllCollections()
+   {
+       // Use the current MongoDB connection from the config
+       $db = DB::connection($this->connection)->getMongoDB();
+
+       // List all collections in the database
+       $collections = $db->listCollections();
+
+       // Return collection names
+       return array_map(function ($collection) {
+           return $collection->getName();
+       }, iterator_to_array($collections));
    }
 }

@@ -56,7 +56,6 @@ class DetteRepository implements DetteRepositoryInterface
         if ($this->request->has('statut')) {
             $statut=$this->request->get('statut');
             if ($statut=="solde") {
-                // dd("jj");
                 $dettes = $dettes->filter(function ($dette) {
                     return $dette->etat_solde;
                 });

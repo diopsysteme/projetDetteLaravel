@@ -12,33 +12,25 @@ class SmsService implements SmsServiceInterface
 {
     private $smsApi;
 
-    public function __construct(string $baseUrl, string $apiKey)
+    public function __construct()
     {
         $configuration = new Configuration(
-            host: $baseUrl,
-            apiKey: $apiKey
+            host: config('sms.infobib.url'),
+            apiKey: config('sms.infobib.key'),  
         );
         $this->smsApi = new SmsApi($configuration);
     }
     public function sendMessage(string $from, string $to, string $messageText): void
 {
-    // Créer la destination avec le numéro de téléphone
-    $destination = new SmsDestination($to); // Passe directement le numéro en paramètre du constructeur
-
-    // Créer le message avec son contenu textuel et la destination
-    $message = new SmsTextualMessage([$destination]); // Le constructeur attend un tableau de `SmsDestination`
-    $message->setFrom($from); // Définir l'expéditeur
-    $message->setText($messageText); // Définir le contenu du message
-
-    // Créer la requête avancée pour l'envoi du message
-    $request = new SmsAdvancedTextualRequest([$message]); // Le constructeur attend un tableau de `SmsTextualMessage`
-
+    $destination = new SmsDestination($to);
+    $message = new SmsTextualMessage([$destination]);
+    $message->setFrom($from);
+    $message->setText($messageText);
+    $request = new SmsAdvancedTextualRequest([$message]);
     try {
-        // Envoyer le message via l'API Infobip
         $response = $this->smsApi->sendSmsMessage($request);
         echo "Message envoyé avec succès : " . $response->getMessages()[0]->getStatus()->getName();
     } catch (\Exception $e) {
-        // Gérer l'exception et afficher un message d'erreur
         echo "Erreur lors de l'envoi du message : " . $e->getMessage();
     }
 }

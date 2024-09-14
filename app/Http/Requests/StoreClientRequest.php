@@ -28,6 +28,8 @@ class StoreClientRequest extends FormRequest
     return [
         'surnom' => 'required|string|max:255|unique:clients,surnom',
         'telephone' => ['required', 'string','unique:clients,telephone', new Telephonesn()],
+        'category_id' => ['required', 'numeric','exist:categories,id'],
+        'max_montant' => 'required|numeric|min:10',
         'address' => 'nullable|string|max:255',
         'user' => 'sometimes|array',
         'user.nom' => 'required_with:user|string|max:255',

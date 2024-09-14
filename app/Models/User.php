@@ -62,8 +62,9 @@ class User extends Authenticatable
     }
     public function hasRole($role)
     {
-        dd($this->role()->label === $role);
-        return $this->role()->label === $role;
+        dd($this->roleValue());
+
+        return $this->roleValue() === $role;
     }
     public function article(){
         return $this->hasMany(Article::class);
